@@ -30,6 +30,9 @@ public class User extends Auditable {
 
     @Column(length = 100, nullable = false, unique = true)
     private String email;
+    
+    @Column(length = 10)
+    private Long phone;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
