@@ -1,5 +1,10 @@
 package com.krushit.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,40 +21,42 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends Auditable {
+public class User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(length = 20)
-    private String firstName;
+	@Column(length = 20)
+	private String firstName;
 
-    @Column(length = 20, nullable = false)
-    private String lastName;
+	@Column(length = 20, nullable = false)
+	private String lastName;
 
-    @Column(length = 100, nullable = false, unique = true)
-    private String email;
-    
-    @Column(length = 10)
-    private Long phone;
+	@Column(length = 100, nullable = false, unique = true)
+	private String email;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] picture;
+	@Column(length = 10)
+	private Long phone;
 
-    @Column(nullable = false)
-    private boolean customPicture;
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
+	private byte[] picture;
 
-    @Column(nullable = false)
-    private String defaultCurrency;
+	@Column(nullable = false)
+	private boolean customPicture;
 
-    @Column(nullable = false)
-    private String locale;
+	@Column(nullable = false)
+	private String locale;
 
-    @Column(nullable = false)
-    private boolean activeSW = false;
+	@Column(nullable = false)
+	private boolean active = true;
 
-    @Column(nullable = false)
-    private boolean active = true;
+	@Column(name = "CREATED_DATE", updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createdDate;
+	
+	@Column(name = "UPDATE_DATE", updatable = true, insertable = false)
+	@UpdateTimestamp
+	private LocalDateTime updateDate;
 }

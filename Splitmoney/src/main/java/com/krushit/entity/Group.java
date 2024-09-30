@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "`groups`")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +28,8 @@ public class Group extends Auditable {
     @Column(name = "simplify_by_default")
     private boolean simplifyByDefault;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "group_id") // Add this to specify the foreign key in the User table
     private List<User> members;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)

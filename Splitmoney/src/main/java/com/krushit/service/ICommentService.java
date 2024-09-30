@@ -1,19 +1,19 @@
 package com.krushit.service;
 
-import com.krushit.entity.Comment;
+import com.krushit.model.CommentModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ICommentService {
 
-    Comment createComment(Comment comment);
+    CommentModel createComment(CommentModel commentModel);
 
-    Comment updateComment(Comment comment);
+    CommentModel updateComment(CommentModel commentModel);
 
-    Optional<Comment> getCommentById(Long id);
+    Optional<CommentModel> getCommentById(Long id);
 
     void deleteComment(Long id);
 
-    List<Comment> getAllComments();
+    List<CommentModel> getAllComments();
 }

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    List<Expense> findByGroupAndActiveTrue(Group group);
-    List<Expense> findByUsers_UserAndActiveTrue(User user);  // To find expenses a user is involved in
+	List<Expense> findByGroupIdAndActiveTrue(Long groupId);
+    List<Expense> findByUsers_UserAndActiveTrue(User user);  
 }
