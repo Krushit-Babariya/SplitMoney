@@ -28,15 +28,20 @@ public class Group extends Auditable {
     @Column(name = "simplify_by_default")
     private boolean simplifyByDefault;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "group_id") // Add this to specify the foreign key in the User table
-    private List<User> members;
+    @ElementCollection
+    @CollectionTable(name = "group_members", joinColumns = @JoinColumn(name = "group_id"))
+    @Column(name = "member_id")
+    private List<Integer> members;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Debt> originalDebts;
+    @ElementCollection
+    @CollectionTable(name = "group_original_debts", joinColumns = @JoinColumn(name = "group_id"))
+    @Column(name = "debt_id")
+    private List<Integer> originalDebts;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Debt> simplifiedDebts;
+    @ElementCollection
+    @CollectionTable(name = "group_simplified_debts", joinColumns = @JoinColumn(name = "group_id"))
+    @Column(name = "debt_id")
+    private List<Integer> simplifiedDebts;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")

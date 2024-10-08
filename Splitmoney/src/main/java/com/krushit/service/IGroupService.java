@@ -1,24 +1,30 @@
 package com.krushit.service;
 
-import com.krushit.entity.Group;
-import com.krushit.entity.User;
+import com.krushit.model.GroupModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IGroupService {
 
-    Group createGroup(Group group);
+    // Create a new group
+    GroupModel createGroup(GroupModel groupModel);
 
-    Group updateGroup(Group group);
+    // Update an existing group
+    GroupModel updateGroup(Long id, GroupModel groupModel);
 
-    Optional<Group> getGroupById(Long id);
+    // Retrieve a group by its ID
+    Optional<GroupModel> getGroupById(Long id);
 
+    // Delete a group by its ID
     void deleteGroup(Long id);
 
-    Group addMemberToGroup(Long groupId, Long userId);
+    // Add a member to a group by their userId
+    GroupModel addMemberToGroup(Long groupId, Integer userId);
 
-    Group removeMemberFromGroup(Long groupId, Long userId);
+    // Remove a member from a group by their userId
+    GroupModel removeMemberFromGroup(Long groupId, Integer userId);
 
-    List<Group> getAllGroups();
+    // Retrieve all groups
+    List<GroupModel> getAllGroups();
 }
