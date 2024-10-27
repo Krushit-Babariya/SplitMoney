@@ -19,6 +19,6 @@ public class ExpenseModel {
 	private Long categoryId;
 	private Long groupId;
 	private boolean splitEqually;
-	private List<RepaymentModel> repayments;
-	private List<ExpenseUserModel> users;
+	private List<Long> users;
+	private Long createdBy;
 }

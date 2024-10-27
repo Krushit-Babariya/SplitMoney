@@ -8,7 +8,5 @@ public class DebtModel {
     private UserModel fromUser;
     private UserModel toUser;
     private Double amount;
-    private String currencyCode;
-    private GroupModel group;
-    private boolean active = true;
+    private Long group_ID;
 }

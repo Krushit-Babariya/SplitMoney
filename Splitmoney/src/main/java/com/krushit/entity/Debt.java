@@ -17,24 +17,14 @@ public class Debt extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "from_user_id", nullable = false)
-    private User fromUser;
-
-    @ManyToOne
-    @JoinColumn(name = "to_user_id", nullable = false)
-    private User toUser;
+    
+    private Long fromUser;
+    private Long toUser;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @Column(name = "currency_code", nullable = false)
-    private String currencyCode;
-
-    @ManyToOne
-    @JoinColumn(name = "group_id", nullable = false)
-    private Group group;
+    private Long groupID; 
 
     @Column(nullable = false)
     private boolean active = true;

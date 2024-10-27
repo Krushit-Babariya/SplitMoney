@@ -1,11 +1,12 @@
 package com.krushit.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "expenses")
@@ -14,43 +15,39 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Expense extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false)
-	private Double cost;
+    @Column(nullable = false)
+    private Double cost;
 
-	@Column(length = 500)
-	private String description;
+    @Column(length = 500)
+    private String description;
 
-	private String details;
+    private String details;
 
-	@Column(name = "date")
-	private LocalDateTime date;
+    @Column(name = "date")
+    private LocalDateTime date;
 
-	@Column(name = "repeat_interval")
-	private String repeatInterval;
+    @Column(name = "repeat_interval")
+    private String repeatInterval;
 
-	@Column(name = "currency_code", nullable = false)
-	private String currencyCode;
+    @Column(name = "currency_code", nullable = false)
+    private String currencyCode;
 
-	@Column(name = "category_id")
-	private Long categoryId;
+    @Column(name = "category_id")
+    private Long categoryId;
 
-	@Column(name = "group_id")
-	private Long groupId;
+    @Column(name = "group_id")
+    private Long groupId;
 
-	@Column(name = "split_equally")
-	private boolean splitEqually;
+    @Column(name = "split_equally")
+    private boolean splitEqually;
 
-	@OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Repayment> repayments;
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
+    private List<ExpenseUser> users;
 
-	@ElementCollection
-	@CollectionTable(name = "expense_users", joinColumns = @JoinColumn(name = "expense_id"))
-	private List<ExpenseUser> users;
-
-	@Column(nullable = false)
-	private boolean active = true;
+    @Column(nullable = false)
+    private boolean active = true;
 }

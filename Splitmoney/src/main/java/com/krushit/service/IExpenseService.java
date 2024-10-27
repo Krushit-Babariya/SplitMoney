@@ -1,19 +1,26 @@
 package com.krushit.service;
 
-import com.krushit.entity.Expense;
+import com.krushit.model.ExpenseModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IExpenseService {
 
-    Expense createExpense(Expense expense);
+    ExpenseModel createExpense(ExpenseModel expenseModel);
 
-    Expense updateExpense(Expense expense);
+    ExpenseModel updateExpense(Long id, ExpenseModel expenseModel);
 
-    Optional<Expense> getExpenseById(Long id);
+    Optional<ExpenseModel> getExpenseById(Long id);
 
     void deleteExpense(Long id);
 
-    List<Expense> getAllExpenses();
+    List<ExpenseModel> getAllExpenses();
+    
+    List<ExpenseModel> getAllExpensesByUserId(Long userId);
+    
+    List<ExpenseModel> getAllExpensesByUserIdAndGroupId(Long userId, Long groupId);
+    
+    List<ExpenseModel> getAllExpensesByGroupId(Long groupId);
+
 }
