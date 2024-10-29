@@ -13,7 +13,6 @@ import com.krushit.entity.Expense;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByGroupIdAndActiveTrue(Long groupId);
 
-    // This method should match the property name in the ExpenseUser entity
     List<Expense> findByUsers_FromUserIdAndActiveTrue(Long userId); 
 
     @Query("SELECT e FROM Expense e JOIN e.users u WHERE u.fromUserId = :userId OR u.toUserId = :userId")
