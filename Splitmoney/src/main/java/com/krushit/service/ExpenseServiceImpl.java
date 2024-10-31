@@ -181,6 +181,12 @@ public class ExpenseServiceImpl implements IExpenseService {
 		List<Expense> expenses = expenseRepository.findAllByGroupId(groupId);
 		return expenses.stream().map(this::mapToModel).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<Expense> getExpensesByUserInGroup(Long groupId, Long userId) {
+	    return expenseRepository.findExpensesByGroupIdAndUserId(groupId, userId);
+	}
+
 
 	private Expense mapToEntity(ExpenseModel model) {
 		Expense expense = new Expense();

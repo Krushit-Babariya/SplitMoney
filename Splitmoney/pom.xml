@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>krushit</groupId>
-	<artifactId>Splitmoney</artifactId>
+	<artifactId>QuickSplit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Splitmoney</name>
+	<name>QuickSplit</name>
 	<description>Splitmoney is a application for Split your expences</description>
 	<url />
 	<licenses>

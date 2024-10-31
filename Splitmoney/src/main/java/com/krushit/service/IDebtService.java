@@ -3,6 +3,7 @@ package com.krushit.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.krushit.entity.Debt;
 import com.krushit.model.DebtModel;
 
 public interface IDebtService {
@@ -43,4 +44,6 @@ public interface IDebtService {
      * @return A list of DebtModel representing all debts.
      */
     List<DebtModel> getAllDebts();
+    
+    List<Debt> getDebtsByGroupId(Long groupId);
 }

@@ -157,4 +157,10 @@ public class DebtServiceImpl implements IDebtService {
         }
         return null; 
     }
+    
+    @Override
+    public List<Debt> getDebtsByGroupId(Long groupId) {
+        // Fetch debts associated with the specified group
+        return debtRepository.findByGroupID(groupId);
+    }
 }

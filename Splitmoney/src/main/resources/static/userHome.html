@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Groups</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Groups You Have Joined</h2>
+        <div id="groupsList" class="mt-3">
+            <!-- User's groups will be displayed here -->
+        </div>
+
+        <h2 class="mt-5">Create a New Group</h2>
+        <form id="createGroupForm" class="mt-3">
+            <div class="form-group">
+                <label for="groupName">Group Name</label>
+                <input type="text" class="form-control" id="groupName" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Group</button>
+        </form>
+
+        <div id="message" class="mt-3"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const userId = JSON.parse(localStorage.getItem("user")).id;
+
+            async function fetchUserGroups() {
+                try {
+                    const response = await fetch(`/api/groups/user/${userId}/joined`); 
+                    if (response.ok) {
+                        const groups = await response.json();
+                        const groupsListDiv = document.getElementById("groupsList");
+                        groupsListDiv.innerHTML = ""; 
+
+                        if (groups.length > 0) {
+                            groups.forEach(group => {
+                                addGroupToList(group);
+                            });
+                        } else {
+                            groupsListDiv.innerHTML = "<p>You have not joined any groups yet.</p>";
+                        }
+                    } else {
+                        document.getElementById("message").innerText = "Error retrieving groups";
+                    }
+                } catch (error) {
+                    console.error("Error fetching groups:", error);
+                    document.getElementById("message").innerText = "Error connecting to server";
+                }
+            }
+
+            // Render groups
+            function renderGroups(groups) {
+                const groupsListDiv = document.getElementById("groupsList");
+                if (groups.length > 0) {
+                    groupsListDiv.innerHTML = groups.map(group => `
+                        <div class="card mb-3" style="cursor: pointer;" onclick="window.location.href='group_details.html?id=${group.id}'">
+                            <div class="card-body">
+                                <h5 class="card-title">${group.name}</h5>
+                                <p class="card-text">${group.description}</p>
+                                ${group.avatar ? `<img src="data:image/png;base64,${btoa(String.fromCharCode(...group.avatar))}" alt="Avatar" class="img-thumbnail" style="max-width: 100px;">` : ''}
+                                ${group.coverPhoto ? `<img src="data:image/jpg;base64,${btoa(String.fromCharCode(...group.coverPhoto))}" alt="Cover Photo" class="img-fluid mt-2" style="max-width: 300px;">` : ''}
+                            </div>
+                        </div>
+                    `).join("");
+                } else {
+                    groupsListDiv.innerHTML = "<p>You have not joined any groups yet.</p>";
+                }
+            }
+
+            // Create a new group
+            document.getElementById("createGroupForm").addEventListener("submit", async function(event) {
+                event.preventDefault();
+                const groupName = document.getElementById("groupName").value;
+                const description = document.getElementById("description").value;
+
+                try {
+                    const response = await fetch("/api/groups/createGroup", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ 
+                            name: groupName, 
+                            description,
+                            members: [userId] 
+                        })
+                    });
+
+                    if (response.ok) {
+                        const newGroup = await response.json();
+                        document.getElementById("message").innerText = "Group created successfully!";
+                        addGroupToList(newGroup); // Add the new group without reloading
+                    } else {
+                        document.getElementById("message").innerText = "Error creating group";
+                    }
+                } catch (error) {
+                    console.error("Error creating group:", error);
+                    document.getElementById("message").innerText = "Error connecting to server";
+                }
+            });
+
+            function addGroupToList(group) {
+                const groupsListDiv = document.getElementById("groupsList");
+                const groupCard = `
+                    <div class="card mb-3" style="cursor: pointer;" onclick="window.location.href='group_details.html?id=${group.id}'">
+                        <div class="card-body">
+                            <h5 class="card-title">${group.name}</h5>
+                            <p class="card-text">${group.description}</p>
+                            ${group.avatar ? `<img src="data:image/png;base64,${btoa(String.fromCharCode(...group.avatar))}" alt="Group Avatar" style="width: 50px; height: 50px;">` : ''}
+                            ${group.coverPhoto ? `<img src="data:image/jpg;base64,${btoa(String.fromCharCode(...group.coverPhoto))}" alt="Cover Photo" style="width: 100%; height: auto;">` : ''}
+                        </div>
+                    </div>
+                `;
+                groupsListDiv.insertAdjacentHTML('beforeend', groupCard);
+
+                // Fetch and display group members when a group is clicked
+                document.querySelector(`#groupsList .card:last-child`).addEventListener('click', async () => {
+                    try {
+                        const membersResponse = await fetch(`/api/groups/getAllMembers/${group.id}`);
+                        if (membersResponse.ok) {
+                            const members = await membersResponse.json();
+                            const membersList = members.map(member => `<li>${member.name}</li>`).join('');
+                            alert(`Group Members:\n${membersList}`);
+                        } else {
+                            console.error('Error fetching group members');
+                        }
+                    } catch (error) {
+                        console.error('Error fetching group members:', error);
+                    }
+                });
+            }
+
+            fetchUserGroups(); // Load user's groups on page load
+        });
+    </script>
+</body>
+</html>

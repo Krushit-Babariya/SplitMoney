@@ -30,7 +30,7 @@ public class Group extends Auditable {
 
     @ElementCollection
     @CollectionTable(name = "group_members", joinColumns = @JoinColumn(name = "group_id"))
-    @Column(name = "member_id")
+    @Column(name = "user_id")
     private List<Integer> members;
 
     @ElementCollection
@@ -55,4 +55,7 @@ public class Group extends Auditable {
 
     @Column(nullable = false)
     private boolean active = true;
+    
+    @Column(nullable = false)
+    private String description;
 }

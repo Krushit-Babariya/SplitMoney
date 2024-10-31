@@ -1,9 +1,11 @@
 package com.krushit.service;
 
-import com.krushit.model.GroupModel;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.krushit.entity.User;
+import com.krushit.model.GroupModel;
+import com.krushit.model.UserModel;
 
 public interface IGroupService {
 
@@ -12,6 +14,8 @@ public interface IGroupService {
 
     // Update an existing group
     GroupModel updateGroup(Long id, GroupModel groupModel);
+    
+    List<GroupModel> getUserJoinedGroups(Integer userId);
 
     // Retrieve a group by its ID
     Optional<GroupModel> getGroupById(Long id);
@@ -27,4 +31,9 @@ public interface IGroupService {
 
     // Retrieve all groups
     List<GroupModel> getAllGroups();
+    
+    List<User> findMembersByGroupId(Long groupId);
+
+	List<User> getGroupMembers(Long groupId);
+
 }

@@ -1,5 +1,6 @@
 package com.krushit.service;
 
+import com.krushit.entity.Expense;
 import com.krushit.model.ExpenseModel;
 
 import java.util.List;
@@ -22,5 +23,7 @@ public interface IExpenseService {
     List<ExpenseModel> getAllExpensesByUserIdAndGroupId(Long userId, Long groupId);
     
     List<ExpenseModel> getAllExpensesByGroupId(Long groupId);
+    
+    List<Expense> getExpensesByUserInGroup(Long groupId, Long userId);
 
 }

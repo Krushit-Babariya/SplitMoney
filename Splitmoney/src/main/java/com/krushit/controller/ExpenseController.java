@@ -76,7 +76,7 @@ public class ExpenseController {
 		return expenseService.getAllExpensesByUserIdAndGroupId(userId, groupId);
 	}
 
-	@GetMapping("/group/{groupId}")
+	@GetMapping("/getExpenseBygroup/{groupId}")
 	public List<ExpenseModel> getAllExpensesByGroupId(@PathVariable Long groupId) {
 		return expenseService.getAllExpensesByGroupId(groupId);
 	}

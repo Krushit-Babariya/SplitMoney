@@ -12,7 +12,8 @@ import lombok.Data;
 public class GroupModel {
     private Long id;
     private String name;
-    private String groupType;
+    private String groupType = "NULL";
+    private String description;
     private boolean simplifyByDefault; 
     private List<Integer> members;
     private List<Integer> originalDebts;
