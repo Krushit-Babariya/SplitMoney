@@ -1,146 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Groups</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Groups</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<style>
+* {
+	color: black;
+}
+
+.group-banner {
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	width: 100%;
+}
+
+.group-banner:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-section {
+	background-color: #a53eb9;
+	border-radius: 8px;
+	padding: 15px;
+}
+
+.btn {
+	background-color: #a53eb9;
+	color: white;
+}
+
+.btn:hover {
+	background-color: #ffd700;
+	color: black;
+}
+
+.group-card {
+	background-color: #ffffff;
+	padding: 10px;
+	border-radius: 8px;
+	cursor: pointer;
+	width: 100%;
+}
+
+.group-card:hover {
+	background-color: #f0f0f0;
+}
+
+.group-icon {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
+
+.navbar {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#groupsList {
+	color: black;
+}
+
+.sidebar-links .nav-link {
+	color: black;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	padding: 8px;
+	text-align: center;
+}
+
+.sidebar-links .nav-link:last-child {
+	border-bottom: none;
+}
+
+.sidebar-links .nav-link:hover {
+	color: #d1c4e9;
+	text-decoration: none;
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-5">Groups You Have Joined</h2>
-        <div id="groupsList" class="mt-3">
-            <!-- User's groups will be displayed here -->
-        </div>
 
-        <h2 class="mt-5">Create a New Group</h2>
-        <form id="createGroupForm" class="mt-3">
-            <div class="form-group">
-                <label for="groupName">Group Name</label>
-                <input type="text" class="form-control" id="groupName" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Group</button>
-        </form>
+	<header>
+		<nav class="navbar navbar-expand-sm shadow"
+			style="padding-left: 190px; padding-right: 200px;">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="index.html"> <img
+					src="images/QuickSplitLogo Header WhiteBack.png" alt="logo"
+					class="img-fluid" style="height: 75px;">
+				</a>
+				<div class="d-flex align-items-center gap-3">
+					<a id="profileSection"></a>
+				</div>
+			</div>
+		</nav>
+	</header>
 
-        <div id="message" class="mt-3"></div>
-    </div>
+	<section class="py-3 overflow-hidden">
+		<div class="container">
+			<div class="row g-4">
+				<div class="col-lg-3">
+					<div class="sidebar-section p-3 border-0 rounded"
+						style="width: 100%; height: auto;">
+						<div class="d-flex align-items-center mb-3">
+							<h5 class="mb-0" id="offcanvasSideNavbarLabel"
+								style="color: white;">Groups</h5>
+						</div>
+						<div id="groupsList" class="list-group w-100" style="color: black"></div>
+					</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const userId = JSON.parse(localStorage.getItem("user")).id;
+					<div class="sidebar-section p-3 border-0 rounded mt-3"
+						style="width: 100%; height: auto; color: white;">
+						<form id="createGroupForm" class="text-white">
+							<div class="form-group">
+								<label for="groupName" class="text-white">Group Name</label> <input
+									type="text" class="form-control" id="groupName" required>
+							</div>
+							<div class="form-group">
+								<label for="description" class="text-white">Description</label>
+								<textarea class="form-control" id="description" required></textarea>
+							</div>
+							<button type="submit" class="btn w-100"
+								style="background-color: white; color: black;">Create
+								Group</button>
+						</form>
+						<div id="groupsList" class="list-group w-100" style="color: black"></div>
+					</div>
 
-            async function fetchUserGroups() {
-                try {
-                    const response = await fetch(`/api/groups/user/${userId}/joined`); 
-                    if (response.ok) {
-                        const groups = await response.json();
-                        const groupsListDiv = document.getElementById("groupsList");
-                        groupsListDiv.innerHTML = ""; 
+					<ul
+						class="nav small mt-4 justify-content-center lh-1 sidebar-links">
+						<li class="nav-item"><a class="nav-link"
+							href="my-profile-about.html">About</a></li>
+						<li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+						<li class="nav-item"><a class="nav-link" target="_blank"
+							href="https://support.webestica.com/login">Support</a></li>
+						<li class="nav-item"><a class="nav-link" target="_blank"
+							href="docs/index.html">Docs</a></li>
+						<li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="privacy-and-terms.html">Privacy &amp; Terms</a></li>
+					</ul>
+				</div>
 
-                        if (groups.length > 0) {
-                            groups.forEach(group => {
-                                addGroupToList(group);
-                            });
-                        } else {
-                            groupsListDiv.innerHTML = "<p>You have not joined any groups yet.</p>";
-                        }
-                    } else {
-                        document.getElementById("message").innerText = "Error retrieving groups";
-                    }
-                } catch (error) {
-                    console.error("Error fetching groups:", error);
-                    document.getElementById("message").innerText = "Error connecting to server";
+				<div class="col-md-8 col-lg-6 vstack gap-4">
+					<h4>Your Expenses</h4>
+					<div id="expensesContainer"></div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="row g-4">
+						<div class="col-sm-6 col-lg-12">
+							<div class="card">
+								<div class="card-header pb-0 border-0">
+									<img class="rounded " alt="images/QuickSplit PRO.png"
+										src="images/QuickSplit PRO.png" style="height: 215px">
+								</div>
+								<div class="card-body">
+									<div class="hstack gap-2 mb-1">
+										<button class="btn w-100">Upgrade</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const userData = JSON.parse(localStorage.getItem("user"));
+        
+        if (userData) {
+            const { firstName, lastName } = userData;
+            const profileSection = document.getElementById("profileSection");
+            profileSection.innerHTML = `
+                <img src="images/avatar.webp" alt="Profile Logo" class="rounded-circle mr-2" style="width: 30px; height: 30px;">
+                <span class="text-black">${firstName} ${lastName}</span>
+            `;
+            profileSection.addEventListener("click", () => {
+                window.location.href = "userProfile.html";
+            });
+        } else {
+            console.warn("No user data found in localStorage.");
+        }
+
+        let userId;
+        try {
+            userId = JSON.parse(localStorage.getItem("user")).id;
+        } catch (error) {
+            showMessage("User not logged in", "error");
+            return;
+        }
+
+        let cachedGroups = [];
+
+        async function fetchUserGroups() {
+            try {
+                const response = await fetch(`/api/groups/user/${userId}/joined`);
+                if (response.ok) {
+                    cachedGroups = await response.json();
+                    renderGroups(cachedGroups);
+                } else {
+                    showMessage("Error retrieving groups", "error");
                 }
+            } catch (error) {
+                showMessage("Error connecting to server", "error");
             }
+        }
 
-            // Render groups
-            function renderGroups(groups) {
-                const groupsListDiv = document.getElementById("groupsList");
-                if (groups.length > 0) {
-                    groupsListDiv.innerHTML = groups.map(group => `
-                        <div class="card mb-3" style="cursor: pointer;" onclick="window.location.href='group_details.html?id=${group.id}'">
-                            <div class="card-body">
-                                <h5 class="card-title">${group.name}</h5>
-                                <p class="card-text">${group.description}</p>
-                                ${group.avatar ? `<img src="data:image/png;base64,${btoa(String.fromCharCode(...group.avatar))}" alt="Avatar" class="img-thumbnail" style="max-width: 100px;">` : ''}
-                                ${group.coverPhoto ? `<img src="data:image/jpg;base64,${btoa(String.fromCharCode(...group.coverPhoto))}" alt="Cover Photo" class="img-fluid mt-2" style="max-width: 300px;">` : ''}
+        window.redirectToGroupDetails = function(groupId) {
+            window.location.href = `group_details.html?id=${groupId}`;
+        };
+
+        function renderGroups(groups) {
+            const groupsListDiv = document.getElementById("groupsList");
+            groupsListDiv.innerHTML = groups.length > 0
+                ? groups.map(group => `
+                    <div class="group-card mb-2" onclick="redirectToGroupDetails(${group.id})">
+                        <div class="d-flex align-items-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1870/1870051.png" alt="Cover Photo" class="group-icon me-3">
+                            <div class="ml-2">
+                                <h6 class="mb-0 text-black" style="font-size: 16px;">${group.name}</h6>
                             </div>
                         </div>
-                    `).join("");
-                } else {
-                    groupsListDiv.innerHTML = "<p>You have not joined any groups yet.</p>";
-                }
-            }
-
-            // Create a new group
-            document.getElementById("createGroupForm").addEventListener("submit", async function(event) {
-                event.preventDefault();
-                const groupName = document.getElementById("groupName").value;
-                const description = document.getElementById("description").value;
-
-                try {
-                    const response = await fetch("/api/groups/createGroup", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ 
-                            name: groupName, 
-                            description,
-                            members: [userId] 
-                        })
-                    });
-
-                    if (response.ok) {
-                        const newGroup = await response.json();
-                        document.getElementById("message").innerText = "Group created successfully!";
-                        addGroupToList(newGroup); // Add the new group without reloading
-                    } else {
-                        document.getElementById("message").innerText = "Error creating group";
-                    }
-                } catch (error) {
-                    console.error("Error creating group:", error);
-                    document.getElementById("message").innerText = "Error connecting to server";
-                }
-            });
-
-            function addGroupToList(group) {
-                const groupsListDiv = document.getElementById("groupsList");
-                const groupCard = `
-                    <div class="card mb-3" style="cursor: pointer;" onclick="window.location.href='group_details.html?id=${group.id}'">
-                        <div class="card-body">
-                            <h5 class="card-title">${group.name}</h5>
-                            <p class="card-text">${group.description}</p>
-                            ${group.avatar ? `<img src="data:image/png;base64,${btoa(String.fromCharCode(...group.avatar))}" alt="Group Avatar" style="width: 50px; height: 50px;">` : ''}
-                            ${group.coverPhoto ? `<img src="data:image/jpg;base64,${btoa(String.fromCharCode(...group.coverPhoto))}" alt="Cover Photo" style="width: 100%; height: auto;">` : ''}
-                        </div>
                     </div>
-                `;
-                groupsListDiv.insertAdjacentHTML('beforeend', groupCard);
+                `).join("")
+                : "<p class='text-white'>You have not joined any groups yet.</p>";
+        }
 
-                // Fetch and display group members when a group is clicked
-                document.querySelector(`#groupsList .card:last-child`).addEventListener('click', async () => {
-                    try {
-                        const membersResponse = await fetch(`/api/groups/getAllMembers/${group.id}`);
-                        if (membersResponse.ok) {
-                            const members = await membersResponse.json();
-                            const membersList = members.map(member => `<li>${member.name}</li>`).join('');
-                            alert(`Group Members:\n${membersList}`);
-                        } else {
-                            console.error('Error fetching group members');
-                        }
-                    } catch (error) {
-                        console.error('Error fetching group members:', error);
-                    }
+        document.getElementById("createGroupForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const groupName = document.getElementById("groupName").value;
+            const description = document.getElementById("description").value;
+
+            try {
+                const response = await fetch("/api/groups/createGroup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: groupName, description, members: [userId] })
                 });
-            }
 
-            fetchUserGroups(); // Load user's groups on page load
+                if (response.ok) {
+                    const newGroup = await response.json();
+                    cachedGroups.push(newGroup);
+                    renderGroups(cachedGroups);
+                    document.getElementById("createGroupForm").reset();
+                    showMessage("Group created successfully!", "success");
+                } else {
+                    showMessage("Error creating group", "error");
+                }
+            } catch (error) {
+                showMessage("Error connecting to server", "error");
+            }
         });
-    </script>
+
+        let groupCache = {}; 
+
+     async function fetchGroupName(groupId) {
+         try {
+             const response = await fetch(`/api/groups/getGroupNameByID/${groupId}`);
+             if (response.ok) {
+                 const groupName = await response.json();
+                 groupCache[groupId] = groupName;
+             } else {
+                 console.error("Failed to fetch group name for ID", groupId, "Status:", response.status);
+             }
+         } catch (error) {
+             console.error("Error fetching group name for ID", groupId, ":", error);
+         }
+     }
+
+     async function fetchExpenses() {
+         try {
+             const userId = JSON.parse(localStorage.getItem("user")).id;
+             const response = await fetch(`/api/expenses/getExpencesByUserID/${userId}`);
+             
+             if (response.ok) {
+                 const expenses = await response.json();
+                 await renderExpenses(expenses);  
+             } else {
+                 console.error("Failed to fetch expenses. Status:", response.status);
+             }
+         } catch (error) {
+             console.error("Error fetching expenses:", error);
+         }
+     }
+
+     async function fetchGroupName(groupId) {
+    	    try {
+    	        const response = await fetch(`/api/groups/getGroupNameByID/${groupId}`);
+    	        if (response.ok) {
+    	            const data = await response.json();
+    	            groupCache[groupId] = data.groupName; 
+    	        } else {
+    	            console.error("Failed to fetch group name. Status:", response.status);
+    	        }
+    	    } catch (error) {
+    	        console.error("Error fetching group name:", error);
+    	    }
+    	}
+
+
+     async function renderExpenses(expenses) {
+    	    const expensesContainer = document.getElementById("expensesContainer");
+
+    	    for (const expense of expenses) {
+    	        if (!groupCache[expense.groupId]) {
+    	            await fetchGroupName(expense.groupId);
+    	        }
+    	    }
+
+    	    expensesContainer.innerHTML = expenses.length > 0
+    	        ? expenses.map(expense => {
+    	            const groupName = groupCache[expense.groupId] || "Unknown Group";
+    	            const date = new Date(expense.date);
+    	            const monthShort = date.toLocaleString('default', { month: 'short' });
+    	            const day = date.getDate();
+
+    	            return `
+    	                <div class="mb-4">
+    	                    <div class="card shadow-sm w-100">
+    	                        <div class="card-body d-flex justify-content-between align-items-center">
+    	                            <div class="expense-details">
+    	                                <p class="month-text">${monthShort}</p> 
+    	                                <h4 class="text-purple">${day}</h4> 
+    	                            </div>
+    	                            <div class="expense-amount-paidby">
+    	                                <p class="expense-amount">${expense.cost} ${expense.currencyCode || 'INR'}</p> 
+    	                                <p class="paid-by">Group : <strong> ${groupName} </strong></p> 
+    	                            </div>
+    	                        </div>
+    	                    </div>
+    	                </div>
+    	            `;
+    	        }).join("")
+    	        : "<p>No expenses found.</p>";
+    	}
+
+     document.addEventListener("DOMContentLoaded", async function() {
+         fetchExpenses();  // Fetch and render the expenses
+     });
+
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.innerText = message;
+            messageDiv.className = `mt-3 alert alert-${type === "success" ? "success" : "danger"}`;
+        }
+
+        fetchUserGroups();
+        fetchExpenses();
+    });
+</script>
+
 </body>
 </html>

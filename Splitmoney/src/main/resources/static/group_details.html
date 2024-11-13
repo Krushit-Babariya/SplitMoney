@@ -15,116 +15,343 @@
 .loading {
 	display: inline-block;
 }
+
+.banner-image {
+	position: relative;
+	height: 200px;
+	background-image: url('images/GroupBanner.png');
+	background-position: center;
+	background-size: cover;
+	border-radius: 1rem 1rem 0 0;
+}
+
+.overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	background: rgba(0, 0, 0, 0);
+	padding: 1rem;
+	color: white;
+}
+
+.banner-name {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.banner-description {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.banner-info {
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.stats {
+	display: flex;
+	gap: 1rem;
+	font-size: 0.9rem;
+	color: #fff;
+}
+
+.flex {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.state-value {
+	font-weight: 700;
+	color: rgb(118, 36, 194);
+}
+
+.action-btn {
+	background-color: transparent;
+	border: 1px solid rgb(118, 36, 194);
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	color: rgb(118, 36, 194);
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.action-btn:hover {
+	background-color: rgb(118, 36, 194);
+	color: #fff;
+}
+
+.banner-card {
+	width: 1110px;
+	border-radius: 1rem;
+	background-color: rgba(31, 41, 55, 1);
+	overflow: hidden;
+}
+
+.card {
+	border-radius: 8px;
+	overflow: hidden;
+	background-color: #fff;
+	margin: 10px 0;
+}
+
+.card-body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.expense-details {
+	flex-grow: 1;
+}
+
+.expense-details h5 {
+	font-size: 1.5rem;
+	margin-bottom: 5px;
+}
+
+.month-text {
+	font-size: 1.1rem;
+	color: #888;
+}
+
+.expense-amount {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.expense-icon img {
+	border-radius: 50%;
+	background-color: #e1e1e1;
+}
+
+.card-body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.expense-details {
+	text-align: left;
+}
+
+.expense-details p {
+	font-size: 1.2rem;
+	margin: 0;
+}
+
+.expense-details h4 {
+	font-size: 2rem;
+	margin: 5px 0;
+}
+
+.expense-amount-paidby {
+	text-align: right;
+}
+
+.expense-amount {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.paid-by {
+	font-size: 1rem;
+	color: #666;
+}
+
+.expense-icon img {
+	border-radius: 50%;
+	background-color: #e1e1e1;
+}
 </style>
 </head>
 <body>
+
+	<header>
+		<nav class="navbar navbar-expand-sm shadow"
+			style="padding-left: 190px; padding-right: 200px;">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="index.html"> <img
+					src="images/QuickSplitLogo Header WhiteBack.png" alt="logo"
+					class="img-fluid" style="height: 75px;">
+				</a>
+				<div class="d-flex align-items-center gap-3">
+					<a id="profileSection"></a>
+				</div>
+			</div>
+		</nav>
+	</header>
+
 	<div class="container">
-		<h2 class="mt-5" id="groupName"></h2>
-		<img id="groupBanner" class="img-fluid" alt="Group Banner"
-			style="max-width: 100%;">
-		<div id="groupDescription" class="mt-3"></div>
+		<div class="row g-4 align-items-center">
 
-		<!-- Add Expense Section -->
-		<h4 class="mt-4">Add Expense</h4>
-		<form id="addExpenseForm" class="mt-3">
-			<div class="form-group">
-				<label for="expenseDescription">Expense Description</label>
-				<textarea class="form-control" id="expenseDescription" rows="2"
-					required></textarea>
+			<div class="col-lg-4 pt-4">
+				<div class="banner-card shadow-lg w-100%">
+					<div class="banner-image">
+						<div class="overlay">
+							<p id="groupName" class="banner-name"></p>
+							<p id="groupDescription" class="banner-description"></p>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="expenseDetails">Expense Details</label>
-				<textarea class="form-control" id="expenseDetails" rows="2" required></textarea>
-			</div>
-			<div class="form-group">
-				<label for="expenseAmount">Amount</label> <input type="number"
-					class="form-control" id="expenseAmount" required min="0"
-					step="0.01">
-			</div>
-			<div class="form-group">
-				<label for="repeatInterval">Repeat Interval (e.g., weekly,
-					monthly)</label> <input type="text" class="form-control"
-					id="repeatInterval">
-			</div>
-			<div class="form-group">
-				<label for="currencyCode">Currency Code (e.g., USD, EUR)</label> <input
-					type="text" class="form-control" id="currencyCode" required
-					pattern="[A-Z]{3}"> <small class="form-text text-muted">Please
-					enter a valid 3-letter currency code.</small>
-			</div>
-			<div class="form-group">
-				<label for="categoryId">Category ID</label> <input type="number"
-					class="form-control" id="categoryId" required min="1">
-			</div>
-			<div class="form-group">
-				<label for="splitEqually">Split Equally</label> <select
-					class="form-control" id="splitEqually" required>
-					<option value="true">Yes</option>
-					<option value="false">No</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="users">User IDs (comma-separated)</label> <input
-					type="text" class="form-control" id="users"
-					placeholder="e.g., 1,2,3">
-			</div>
-			<button type="submit" class="btn btn-primary">Add Expense</button>
-			<div class="spinner-border text-primary loading" role="status">
-				<span class="sr-only">Loading...</span>
-			</div>
-			<div id="addExpenseFeedback" class="mt-2"></div>
-		</form>
 
-		<!-- Add Members Section -->
-		<h4 class="mt-4">Add Members to Group</h4>
-		<form id="addMemberForm" class="mt-3">
-			<div class="form-group">
-				<label for="memberUserId">Member User ID</label> <input
-					type="number" class="form-control" id="memberUserId" required
-					placeholder="Enter User ID" min="1">
+		</div>
+
+		<div class="row g-4 justify-content-center my-4">
+
+			<div class="col-lg-4">
+				<div class="shadow-lg">
+					<div class="p-4">
+						<h5>Members</h5>
+						<div id="membersList" class="mt-3"></div>
+					</div>
+				</div>
+
+				<div class="shadow-lg">
+					<div class="p-4">
+						<h5>Debts</h5>
+						<div id="debtsList" class="mt-3"></div>
+					</div>
+				</div>
+
+				<div class="shadow-lg p-3">
+					<form id="addExpenseForm" class="mt-3">
+						<div class="form-group">
+							<label for="expenseDescription">Expense Description</label>
+							<textarea class="form-control" id="expenseDescription" rows="2"
+								required></textarea>
+						</div>
+						<div class="form-group">
+							<label for="expenseAmount">Amount</label> <input type="number"
+								class="form-control" id="expenseAmount" required min="0"
+								step="0.01">
+						</div>
+						<div class="form-group">
+							<label for="repeatInterval">Repeat Interval (e.g.,
+								weekly, monthly)</label> <input type="text" class="form-control"
+								id="repeatInterval">
+						</div>
+						<div class="form-group">
+							<label for="currencyCode">Currency Code (e.g., USD, EUR)</label>
+							<input type="text" class="form-control" id="currencyCode"
+								required pattern="[A-Z]{3}"> <small
+								class="form-text text-muted">Please enter a valid
+								3-letter currency code.</small>
+						</div>
+						<div class="form-group">
+							<label for="categoryId">Category ID</label> <input type="number"
+								class="form-control" id="categoryId" required min="1">
+						</div>
+						<div class="form-group">
+							<label for="splitEqually">Split Equally</label> <select
+								class="form-control" id="splitEqually" required>
+								<option value="true">Yes</option>
+								<option value="false">No</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="users">User IDs (comma-separated)</label> <input
+								type="text" class="form-control" id="users"
+								placeholder="e.g., 1,2,3">
+						</div>
+						<button type="submit" class="btn btn-primary w-100">Add
+							Expense</button>
+						<div id="addExpenseFeedback" class="mt-2"></div>
+					</form>
+				</div>
 			</div>
-			<button type="submit" class="btn btn-success">Add Member</button>
-			<div id="addMemberFeedback" class="mt-2"></div>
-		</form>
 
-		<!-- Button to fetch group members -->
-		<button id="showMembersButton" class="btn btn-info mt-4">Show
-			Group Members</button>
-		<div id="membersList" class="mt-3"></div>
+			<div class="col-lg-8 mt-0">
+				<div class="shadow-lg w-100%">
+					<div class="p-3">
+						<div class="">
+							<h4 class="">Add Member</h4>
+							<form id="addUserForm" class="mt-3">
+								<div class="form-group">
+									<label for="users">Enter User UID</label> <input type="text"
+										class="form-control" id="userID" placeholder="e.g., 1,2,3">
+								</div>
+								<button type="submit" class="btn btn-primary w-100">Add
+									User</button>
+								<div id="addExpenseFeedback" class="mt-2"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="shadow-lg w-100%">
+					<div class="p-3">
+						<div class="">
+							<h4 class="">Previous Expenses</h4>
+							<div id="expensesList"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-		<h4 class="mt-4">Previous Expenses</h4>
-		<div id="expensesList"></div>
-		<h4 class="mt-4">Debts</h4>
-		<div id="debtsList"></div>
-		<button onclick="window.history.back();"
-			class="btn btn-secondary mt-3">Back to Groups</button>
+		</div>
 	</div>
 
 	<script>
+	
+	const userData = JSON.parse(localStorage.getItem("user"));
+
+	if (userData) {
+	    const { firstName, lastName, picture } = userData;
+
+	    console.log("User data retrieved:", userData);
+
+	    const profileSection = document.getElementById("profileSection");
+	    profileSection.innerHTML = `
+	        <img src="images/avatar.webp" alt="Profile Logo" class="rounded-circle mr-2" style="width: 30px; height: 30px;">
+	        <span class="text-black">${firstName} ${lastName}</span>
+	    `;
+
+	    profileSection.addEventListener("click", () => {
+	        window.location.href = "userProfile.html";
+	    });
+	} else {
+	    console.warn("No user data found in localStorage.");
+	    document.getElementById("profileSection").innerHTML = `<span class="text-white">Profile</span>`;
+	}
+
         document.addEventListener("DOMContentLoaded", async function() {
-            const groupId = new URLSearchParams(window.location.search).get('id'); // Get the group ID from URL
+            const groupId = new URLSearchParams(window.location.search).get('id');
             if (!groupId) {
                 alert("Group ID not found!");
                 return;
             }
+            
+            if (groupId) {
+                createDebt(groupId);
+            } else {
+                console.error("Group ID not found in URL.");
+            }
 
             try {
-                const response = await fetch(`/api/groups/${groupId}`);
+                const response = await fetch(`/api/groups/getGroup/${groupId}`);
                 if (response.ok) {
                     const group = await response.json();
                     document.getElementById("groupName").innerText = group.name;
                     document.getElementById("groupDescription").innerText = group.description;
 
-                    // Display group banner if available
-                    if (group.coverPhoto) {
+                    /* if (group.coverPhoto) {
                         const coverPhotoBlob = new Blob([new Uint8Array(group.coverPhoto)], { type: "image/jpeg" });
                         const coverPhotoDataURL = URL.createObjectURL(coverPhotoBlob);
                         document.getElementById("groupBanner").src = coverPhotoDataURL;
-                    }
-
-                    // Fetch and display expenses and debts
+                    } */
+                    
                     fetchGroupExpenses(groupId);
                     fetchGroupDebts(groupId);
+                    loadGroupMembers();
+                    createDebt(groupId);
                 } else {
                     console.error("Error fetching group details:", response.statusText);
                 }
@@ -132,169 +359,266 @@
                 console.error("Error fetching group details:", error);
             }
 
-            // Handle add expense form submission
             document.getElementById("addExpenseForm").addEventListener("submit", async function(event) {
                 event.preventDefault();
+
                 const description = document.getElementById("expenseDescription").value;
-                const details = document.getElementById("expenseDetails").value;
-                const amount = document.getElementById("expenseAmount").value;
+                const amount = parseFloat(document.getElementById("expenseAmount").value);
                 const repeatInterval = document.getElementById("repeatInterval").value;
                 const currencyCode = document.getElementById("currencyCode").value;
-                const categoryId = document.getElementById("categoryId").value;
+                const categoryId = parseInt(document.getElementById("categoryId").value);
                 const splitEqually = document.getElementById("splitEqually").value === 'true';
-                const userIds = document.getElementById("users").value.split(',').map(id => parseInt(id.trim())); 
-                const userId = JSON.parse(localStorage.getItem("user")).id; 
-                const date = new Date(); 
-
-                const loadingSpinner = document.querySelector('.loading');
-                loadingSpinner.style.display = 'inline-block'; // Show loading spinner
+                const userIds = document.getElementById("users").value.split(',').map(id => parseInt(id.trim()));
+                const userId = JSON.parse(localStorage.getItem("user")).id;
+                const date = new Date().toISOString();
 
                 try {
                     const response = await fetch(`/api/expenses/createExpense`, {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             description: description,
-                            details: details,
-                            cost: parseFloat(amount),
-                            date: date.toISOString(), // Include date as a string
+                            cost: amount,
+                            date: date,
                             repeatInterval: repeatInterval,
                             currencyCode: currencyCode,
-                            categoryId: parseInt(categoryId),
-                            groupId: parseInt(groupId), // Include group ID in expense data
+                            categoryId: categoryId,
+                            groupId: parseInt(groupId),
                             splitEqually: splitEqually,
                             users: userIds,
-                            createdBy: userId // Include created by user ID
+                            createdBy: userId
                         })
                     });
-
-                    loadingSpinner.style.display = 'none'; // Hide loading spinner
 
                     if (response.ok) {
                         const newExpense = await response.json();
-                        document.getElementById("expensesList").insertAdjacentHTML('beforeend', ` 
+                        document.getElementById("expensesList").insertAdjacentHTML('beforeend', `
                             <div class="card mt-2">
                                 <div class="card-body">
-                                    <p>${newExpense.description}: $${newExpense.cost} (Added on ${new Date(newExpense.date).toLocaleDateString()})</p>
+                                    <p>${newExpense.description}: $${newExpense.cost}</p>
                                 </div>
                             </div>
                         `);
-                        document.getElementById("addExpenseForm").reset(); // Reset form
+                        document.getElementById("addExpenseForm").reset();
                     } else {
-                        const feedbackDiv = document.getElementById("addExpenseFeedback");
-                        feedbackDiv.innerText = "Error adding expense: " + response.statusText;
-                        feedbackDiv.classList.add("text-danger");
+                        console.error("Failed to add expense:", response.statusText);
                     }
                 } catch (error) {
-                    loadingSpinner.style.display = 'none'; // Hide loading spinner
                     console.error("Error adding expense:", error);
-                    const feedbackDiv = document.getElementById("addExpenseFeedback");
-                    feedbackDiv.innerText = "Error adding expense. Please try again.";
-                    feedbackDiv.classList.add("text-danger");
                 }
             });
 
-            document.getElementById("addMemberForm").addEventListener("submit", async function(event) {
+
+
+            document.getElementById("addUserForm").addEventListener("submit", async function(event) {
                 event.preventDefault();
-                const memberUserId = document.getElementById("memberUserId").value;
+                const userId = document.getElementById("userID").value;
+                const feedback = document.getElementById("addExpenseFeedback"); 
 
                 try {
-                    const response = await fetch(`/api/groups/${groupId}/addMember`, {
-                        method: "POST",
+                    const response = await fetch(`/api/groups/addMember/${groupId}/members/${userId}`, {
+                        method: 'POST',
                         headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            userId: parseInt(memberUserId),
-                            groupId: parseInt(groupId)
-                        })
+                            'Content-Type': 'application/json'
+                        }
                     });
 
                     if (response.ok) {
-                        alert("Member added successfully!");
-                        document.getElementById("memberUserId").value = ""; // Clear input
-                        const feedbackDiv = document.getElementById("addMemberFeedback");
-                        feedbackDiv.innerText = "Member added successfully!";
-                        feedbackDiv.classList.remove("text-danger");
-                        feedbackDiv.classList.add("text-success");
+                        feedback.innerText = "Member added successfully!";
+                        feedback.className = "text-success";
+                        document.getElementById("addUserForm").reset(); 
                     } else {
-                        const feedbackDiv = document.getElementById("addMemberFeedback");
-                        feedbackDiv.innerText = "Error adding member: " + response.statusText;
-                        feedbackDiv.classList.add("text-danger");
+                        feedback.innerText = "Error adding member.";
+                        feedback.className = "text-danger";
                     }
                 } catch (error) {
                     console.error("Error adding member:", error);
-                    const feedbackDiv = document.getElementById("addMemberFeedback");
-                    feedbackDiv.innerText = "Error adding member. Please try again.";
-                    feedbackDiv.classList.add("text-danger");
+                    feedback.innerText = "Error adding member.";
+                    feedback.className = "text-danger";
                 }
             });
 
-            document.getElementById("showMembersButton").addEventListener("click", async function() {
+
+
+            
+            async function loadGroupMembers() {
+                const membersListDiv = document.getElementById("membersList");
                 try {
                     const response = await fetch(`/api/groups/getAllMembers/${groupId}`);
                     if (response.ok) {
                         const members = await response.json();
-                        console.log("Members:", members); // Log the members array to check its structure
-                        const membersListDiv = document.getElementById("membersList");
+                        console.log(members);
                         membersListDiv.innerHTML = members.length > 0 
-                            ? members.map(member => `<p>User ID: ${member.id}</p>`).join('') // Accessing the correct property
-                            : "<p>No members found for this group.</p>";
+                            ? members.map(member => `<li class="nav-item">${member.firstName} ${member.lastName}</li>`).join("") 
+                            : "<li class='nav-item'>No members found.</li>";
                     } else {
-                        console.error("Error fetching members:", response.statusText);
+                        membersListDiv.innerHTML = "<li class='nav-item'>Error fetching members.</li>";
                     }
                 } catch (error) {
                     console.error("Error fetching members:", error);
+                    membersListDiv.innerHTML = "<li class='nav-item'>Error fetching members.</li>";
                 }
-            });
-
-
+            }
         });
 
         async function fetchGroupExpenses(groupId) {
             try {
-                const response = await fetch(`/api/expenses/group/${groupId}`);
+                console.log("Fetching expenses for Group ID:", groupId);
+                const response = await fetch(`/api/expenses/getExpenseBygroup/${groupId}`);
                 if (response.ok) {
                     const expenses = await response.json();
-                    console.log("Fetched expenses:", expenses); // Debugging line
+                    console.log("Fetched expenses:", expenses);
+                    
                     const expensesListDiv = document.getElementById("expensesList");
-                    expensesListDiv.innerHTML = expenses.length > 0 
-                        ? expenses.map(expense => `
-                            <div class="card mt-2">
-                                <div class="card-body">
-                                    <p>${expense.description}: $${expense.cost} (Added on ${new Date(expense.date).toLocaleDateString()})</p>
+
+                    const expenseItems = await Promise.all(expenses.map(async (expense) => {
+                        const expenseDate = new Date(expense.date);
+                        const isValidDate = !isNaN(expenseDate); 
+
+                        const monthShort = isValidDate ? expenseDate.toLocaleString('default', { month: 'short' }) : 'N/A';
+                        const day = isValidDate ? String(expenseDate.getDate()).padStart(2, '0') : 'Invalid Date';
+
+                        const paidBy = await fetchUserName(expense.createdBy);
+
+                        return `
+                            <div class="mb-4">
+                                <div class="card shadow-sm w-100">
+                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                    	<div class="expense-details">
+                                    		<p class="month-text">${monthShort}</p> <!-- Short Month -->
+                                    		<h4 class="text-purple">${day}</h4> <!-- Day -->
+                                		</div>
+                                		<!--                               		<div class="expense-icon ml-2">
+                                    		<img class = "ml-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3L-I0_EUl-VG6ERTOdHZcHRg6Gmj2rNs2XQVtv4JozDg2P8JLoNE7_VFvAmareA50TPc&usqp=CAU" alt="Expense Icon" width=auto height="40">
+                                		</div> -->
+
+                                		<div class="expense-amount-paidby">
+                                     		<p class="expense-amount">${expense.cost} ${expense.currencyCode}</p> <!-- Amount -->
+                                     		<p class="paid-by">Paid By: ${paidBy}</p> 
+                                		</div>
+                                	 </div>
                                 </div>
                             </div>
-                        `).join('') 
-                        : "<p>No expenses found for this group.</p>";
+                        `;
+                    }));
+
+                    expensesListDiv.innerHTML = expenseItems.join("") || "<p>No expenses found.</p>";
                 } else {
                     console.error("Error fetching expenses:", response.statusText);
+                    document.getElementById("expensesList").innerHTML = "<p>Error fetching expenses.</p>";
                 }
             } catch (error) {
                 console.error("Error fetching expenses:", error);
+                document.getElementById("expensesList").innerHTML = "<p>Error fetching expenses.</p>";
             }
         }
 
         async function fetchGroupDebts(groupId) {
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            if (!user || !user.id) {
+                console.error("User data not found in local storage");
+                document.getElementById("debtsList").innerHTML = "<p>User not logged in or data missing.</p>";
+                return;
+            }
+
+            const userId = user.id;
+            console.log("User Info:", user);
+
             try {
-                const response = await fetch(`/api/groups/${groupId}/debts`);
-                if (response.ok) {
-                    const debts = await response.json();
-                    const debtsListDiv = document.getElementById("debtsList");
-                    debtsListDiv.innerHTML = debts.length > 0 ? debts.map(debt => `
-                        <div class="card mt-2">
-                            <div class="card-body">
-                                <p>${debt.description}: $${debt.amount}</p>
-                            </div>
-                        </div>
-                    `).join('') : "<p>No debts found for this group.</p>";
+            	await fetch(`/api/debts/createDebt/${groupId}`);
+                const response = await fetch(`/api/debts/getDebtByGroupAndFromUser?groupId=${groupId}&userId=${userId}`);
+                const responseTo = await fetch(`/api/debts/getDebtByGroupAndToUser?groupId=${groupId}&userId=${userId}`);
+                const debts = await response.json();
+                const debtsTo = await responseTo.json();
+                console.log("Fetched Debts:", debts);
+
+                const debtsListDiv = document.getElementById("debtsList");
+
+                for (let debt of debts) {
+                    const fromUserName = await fetchUserName(debt.fromUser); 
+                    const toUserName = await fetchUserName(debt.toUser); 
+
+                    let debtSentence = '';
+                    if (debt.fromUser === userId) {
+                        debtSentence = `<div style="color: green;">
+                                            <strong>${fromUserName}</strong> owes <strong>${toUserName}</strong>: ${debt.amount} INR
+                                         </div>`;
+                    } else if (debt.toUser === userId) {
+                        debtSentence = `<div style="color: red;">
+                                            <strong>${fromUserName}</strong> is owed by <strong>${toUserName}</strong>: ${debt.amount} INR
+                                         </div>`;
+                    }
+
+                    debtsListDiv.innerHTML += debtSentence;
                 }
+
+                for (let debt of debtsTo) {
+                    const fromUserName = await fetchUserName(debt.fromUser); 
+                    const toUserName = await fetchUserName(debt.toUser); 
+
+                    let debtSentence = '';
+                    if (debt.fromUser === userId) {
+                        debtSentence = `<div style="color: green;">
+                                            <strong>${fromUserName}</strong> owes <strong>${toUserName}</strong>: ${debt.amount} INR
+                                         </div>`;
+                    } else if (debt.toUser === userId) {
+                        debtSentence = `<div style="color: red;">
+                                            <strong>${fromUserName}</strong> is owed by <strong>${toUserName}</strong>: ${debt.amount} INR
+                                         </div>`;
+                    }
+
+                    debtsListDiv.innerHTML += debtSentence;
+                }
+
+                if (debts.length === 0 && debtsTo.length === 0) {
+                    debtsListDiv.innerHTML = "<p>No debts found.</p>";
+                }
+
             } catch (error) {
                 console.error("Error fetching debts:", error);
+                document.getElementById("debtsList").innerHTML = "<p>Error fetching debts.</p>";
             }
         }
+
+        async function fetchUserName(userId) {
+            try {
+                const response = await fetch(`/api/users/getUserNameById/${userId}`);
+                if (response.ok) {
+                    const userName = await response.text();
+                    return userName;
+                } else {
+                    return `User ${userId}`;
+                }
+            } catch (error) {
+                console.error("Error fetching user name:", error);
+                return `User ${userId}`;
+            }
+        }
+        
+        async function createDebt(groupId) {
+            try {
+                const response = await fetch(`/api/debts/createDebt/${groupId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (response.ok) {
+                    const message = await response.text();
+                    console.log("Success:", message);
+                } else {
+                    const errorMessage = await response.text(); 
+                    console.error("Error:", errorMessage);
+                    alert("Failed to create debts");
+                }
+            } catch (error) {
+                console.error("Request error:", error);
+                alert("Error connecting to server");
+            }
+        }
+
     </script>
 </body>
 </html>
