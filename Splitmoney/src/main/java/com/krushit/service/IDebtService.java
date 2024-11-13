@@ -46,4 +46,8 @@ public interface IDebtService {
     List<DebtModel> getAllDebts();
     
     List<Debt> getDebtsByGroupId(Long groupId);
+
+	List<Debt> getDebtsByGroupAndFromUser(Long groupId, Long userId);
+
+	List<Debt> getDebtsByGroupAndToUser(Long groupId, Long userId);
 }

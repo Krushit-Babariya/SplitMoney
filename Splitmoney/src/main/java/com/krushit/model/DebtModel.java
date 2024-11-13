@@ -8,5 +8,5 @@ public class DebtModel {
     private UserModel fromUser;
     private UserModel toUser;
     private Double amount;
-    private Long group_ID;
+    private Long groupID; 
 }

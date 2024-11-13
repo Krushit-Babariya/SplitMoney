@@ -23,6 +23,8 @@ import com.krushit.repository.DebtRepository;
 import com.krushit.repository.ExpenseUserRepository;
 import com.krushit.repository.GroupRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class DebtServiceImpl implements IDebtService {
 
@@ -36,27 +38,22 @@ public class DebtServiceImpl implements IDebtService {
     private GroupRepository groupRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(DebtController.class);
+
+    @Transactional
     @Override
     public void createDebt(Long groupId) {
         logger.info("In Create Debt");
+        debtRepository.deleteAllByGroupID(groupId);
+
         List<ExpenseUser> expenseUsers = expenseUserRepository.findAllByGroupId(groupId);
 
         List<int[]> expenseTransactions = getExpenseTransactions(expenseUsers);
-
-        List<SimplifiedDebt> simplifiedDebts = calculateSimplifiedDebts(expenseTransactions);
+        List<SimplifiedDebt> individualDebts = calculateNetDebts(expenseTransactions);
 
         Group group = groupRepository.findById(groupId)
                                      .orElseThrow(() -> new RuntimeException("Group not found"));
 
-        for (SimplifiedDebt entry : simplifiedDebts) {
-            List<Debt> existingDebts = debtRepository.findByFromUserAndToUserAndGroupIDAndActiveTrue(
-                entry.getFromUser(), entry.getToUser(), groupId
-            );
-
-            if (!existingDebts.isEmpty()) {
-                debtRepository.deleteAll(existingDebts);
-            }
-
+        for (SimplifiedDebt entry : individualDebts) {
             Debt debt = new Debt();
             debt.setFromUser(entry.getFromUser());
             debt.setToUser(entry.getToUser());
@@ -71,7 +68,6 @@ public class DebtServiceImpl implements IDebtService {
 
     @Override
     public DebtModel updateDebt(DebtModel debtModel) {
-        // Update existing debt records
         Optional<Debt> optionalDebt = debtRepository.findById(debtModel.getId());
         if (optionalDebt.isPresent()) {
             Debt debt = optionalDebt.get();
@@ -122,45 +118,53 @@ public class DebtServiceImpl implements IDebtService {
         return expenseTransactions;
     }
 
-    private List<SimplifiedDebt> calculateSimplifiedDebts(List<int[]> expenses) {
-        Map<Long, Double> balanceMap = new HashMap<>();
+    private List<SimplifiedDebt> calculateNetDebts(List<int[]> expenses) {
+        Map<String, Double> debtMap = new HashMap<>();
 
         for (int[] expense : expenses) {
-            Long from = (long) expense[0];
-            Long to = (long) expense[1];
+            Long fromUser = (long) expense[0];
+            Long toUser = (long) expense[1];
             double amount = (double) expense[2];
 
-            balanceMap.put(from, balanceMap.getOrDefault(from, 0.0) - amount);
-            balanceMap.put(to, balanceMap.getOrDefault(to, 0.0) + amount);
+            if (fromUser.equals(toUser)) {
+                continue;
+            }
+
+            String key = fromUser < toUser ? fromUser + ":" + toUser : toUser + ":" + fromUser;
+            double value = fromUser < toUser ? amount : -amount;
+
+            debtMap.put(key, debtMap.getOrDefault(key, 0.0) + value);
         }
 
-        List<SimplifiedDebt> simplifiedDebts = new ArrayList<>();
-        for (Map.Entry<Long, Double> entry : balanceMap.entrySet()) {
-            Long userId = entry.getKey();
-            Double balance = entry.getValue();
-            if (balance < 0) { // User owes money
-                Long toUser = findToUser(userId, balanceMap);
-                if (toUser != null) {
-                    simplifiedDebts.add(new SimplifiedDebt(userId, toUser, -balance)); 
-                }
+        List<SimplifiedDebt> debts = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : debtMap.entrySet()) {
+            String[] users = entry.getKey().split(":");
+            Long user1 = Long.parseLong(users[0]);
+            Long user2 = Long.parseLong(users[1]);
+            double balance = entry.getValue();
+
+            if (balance > 0) {
+                debts.add(new SimplifiedDebt(user1, user2, balance));
+            } else if (balance < 0) {
+                debts.add(new SimplifiedDebt(user2, user1, -balance));
             }
         }
 
-        return simplifiedDebts;
+        return debts;
     }
 
-    private Long findToUser(Long fromUser, Map<Long, Double> balanceMap) {
-        for (Map.Entry<Long, Double> entry : balanceMap.entrySet()) {
-            if (entry.getValue() > 0) { 
-                return entry.getKey();
-            }
-        }
-        return null; 
-    }
-    
     @Override
     public List<Debt> getDebtsByGroupId(Long groupId) {
-        // Fetch debts associated with the specified group
         return debtRepository.findByGroupID(groupId);
+    }
+
+    @Override
+    public List<Debt> getDebtsByGroupAndFromUser(Long groupId, Long userId) {
+        return debtRepository.findByGroupIDAndFromUser(groupId, userId);
+    }
+
+    @Override
+    public List<Debt> getDebtsByGroupAndToUser(Long groupId, Long userId) {
+        return debtRepository.findByGroupIDAndToUser(groupId, userId);
     }
 }
